@@ -1,22 +1,5 @@
 loadstring(game:HttpGet("https://pastefy.app/aDXsZ6k2/raw"))()
 
---backpack
-
--- 📌 Script bật lại túi đồ trong Grow a Garden (LocalScript)
-
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
-
-while true do
-	for _, gui in pairs(PlayerGui:GetChildren()) do
-		if gui:IsA("ScreenGui") and gui.Name:lower():find("inventory") then
-			gui.Enabled = true
-		end
-	end
-	wait(2)
-end
-
 --scripts
 
 local Players = game:GetService("Players")
