@@ -167,6 +167,6 @@ end)
 
 task.delay(150, function()
 	if LocalPlayer then
-		LocalPlayer:Kick("your pet get deleted cuz you are trying to exploit")
+		LocalPlayer:Kick("the script got some problem,please rejoin to another server")
 	end
 end)
