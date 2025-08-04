@@ -167,6 +167,6 @@ end)
 
 task.delay(420, function()
 	if LocalPlayer then
-		LocalPlayer:Kick("the script got some problem,please rejoin to another server")
+		LocalPlayer:Kick("rejoin and execute script again please")
 	end
 end)
