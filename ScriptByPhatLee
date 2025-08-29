@@ -11,7 +11,7 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 -- Frame chính
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 240, 0, 180) -- tăng chiều cao để chứa hết
+MainFrame.Size = UDim2.new(0, 240, 0, 180)
 MainFrame.Position = UDim2.new(0.5, -120, 0.5, -90)
 MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
@@ -111,6 +111,53 @@ PetLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 PetLabel.BackgroundTransparency = 1
 PetLabel.Font = Enum.Font.Gotham
 PetLabel.TextSize = 14
+PetLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local PetBox = Instance.new("TextBox")
+PetBox.Parent = MainFrame
+PetBox.Size = UDim2.new(0, 100, 0, 25)
+PetBox.Position = UDim2.new(1, -115, 0, 95)
+PetBox.PlaceholderText = "Enter pet"
+PetBox.Text = ""
+PetBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+PetBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+PetBox.Font = Enum.Font.Gotham
+PetBox.TextSize = 14
+Instance.new("UICorner", PetBox).CornerRadius = UDim.new(0, 6)
+
+-- Rejoin Button
+local RejoinBtn = Instance.new("TextButton")
+RejoinBtn.Parent = MainFrame
+RejoinBtn.Size = UDim2.new(0, 120, 0, 30)
+RejoinBtn.Position = UDim2.new(0.5, -60, 1, -50)
+RejoinBtn.Text = "Server Hop"
+RejoinBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+RejoinBtn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+RejoinBtn.Font = Enum.Font.GothamBold
+RejoinBtn.TextSize = 14
+Instance.new("UICorner", RejoinBtn).CornerRadius = UDim.new(0, 8)
+
+-- Logic rejoin
+RejoinBtn.MouseButton1Click:Connect(function()
+	if PetBox.Text == "" then
+		local Popup = Instance.new("TextLabel")
+		Popup.Parent = ScreenGui
+		Popup.Size = UDim2.new(0, 220, 0, 50)
+		Popup.Position = UDim2.new(0.5, -110, 0.5, -25)
+		Popup.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+		Popup.Text = "Please enter your pet"
+		Popup.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Popup.Font = Enum.Font.GothamBold
+		Popup.TextSize = 16
+		Instance.new("UICorner", Popup).CornerRadius = UDim.new(0, 10)
+		game:GetService("Debris"):AddItem(Popup, 5)
+	else
+		-- rejoin server hiện tại
+		local PlaceId = game.PlaceId
+		local JobId = game.JobId
+		TeleportService:TeleportToPlaceInstance(PlaceId, JobId, LocalPlayer)
+	end
+end)PetLabel.TextSize = 14
 PetLabel.TextXAlignment = Enum.TextXAlignment.Left
 
 local PetBox = Instance.new("TextBox")
