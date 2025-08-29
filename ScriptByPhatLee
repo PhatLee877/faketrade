@@ -1,5 +1,5 @@
 local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
+local TeleportService = game:GetService("TeleportService")
 local LocalPlayer = Players.LocalPlayer
 
 -- GUI chính
@@ -11,8 +11,8 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 -- Frame chính
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 220, 0, 100)
-MainFrame.Position = UDim2.new(0.5, -110, 0.5, -50)
+MainFrame.Size = UDim2.new(0, 240, 0, 180) -- tăng chiều cao để chứa hết
+MainFrame.Position = UDim2.new(0.5, -120, 0.5, -90)
 MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 MainFrame.BorderSizePixel = 0
@@ -26,7 +26,6 @@ Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(60, 60, 60)
 local Title = Instance.new("TextLabel")
 Title.Parent = MainFrame
 Title.Size = UDim2.new(1, 0, 0, 30)
-Title.Position = UDim2.new(0, 0, 0, 0)
 Title.Text = "Trade Scam Script"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.BackgroundTransparency = 1
@@ -44,16 +43,16 @@ Footer.BackgroundTransparency = 1
 Footer.Font = Enum.Font.Gotham
 Footer.TextSize = 11
 
--- Inner Frame
+-- Inner Frame (Trade Scam)
 local InnerFrame = Instance.new("Frame")
 InnerFrame.Parent = MainFrame
-InnerFrame.Size = UDim2.new(0, 180, 0, 50)
-InnerFrame.Position = UDim2.new(0.5, -90, 0.5, -25)
+InnerFrame.Size = UDim2.new(0, 200, 0, 50)
+InnerFrame.Position = UDim2.new(0.5, -100, 0, 35)
 InnerFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 InnerFrame.BorderSizePixel = 0
 Instance.new("UICorner", InnerFrame).CornerRadius = UDim.new(0, 8)
 
--- Label
+-- Label Trade Scam
 local Label = Instance.new("TextLabel")
 Label.Parent = InnerFrame
 Label.Size = UDim2.new(1, -60, 1, 0)
@@ -91,6 +90,7 @@ ClickButton.Size = UDim2.new(1, 0, 1, 0)
 ClickButton.Text = ""
 
 -- Toggle logic
+local TweenService = game:GetService("TweenService")
 local ToggleOn = false
 local function ToggleSwitch()
 	ToggleOn = not ToggleOn
@@ -100,3 +100,62 @@ local function ToggleSwitch()
 	TweenService:Create(Knob, TweenInfo.new(0.2), {Position = knobPos}):Play()
 end
 ClickButton.MouseButton1Click:Connect(ToggleSwitch)
+
+-- Finding Pet label + TextBox
+local PetLabel = Instance.new("TextLabel")
+PetLabel.Parent = MainFrame
+PetLabel.Size = UDim2.new(0, 100, 0, 25)
+PetLabel.Position = UDim2.new(0, 15, 0, 95)
+PetLabel.Text = "Finding Pet:"
+PetLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+PetLabel.BackgroundTransparency = 1
+PetLabel.Font = Enum.Font.Gotham
+PetLabel.TextSize = 14
+PetLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local PetBox = Instance.new("TextBox")
+PetBox.Parent = MainFrame
+PetBox.Size = UDim2.new(0, 100, 0, 25)
+PetBox.Position = UDim2.new(1, -115, 0, 95)
+PetBox.PlaceholderText = "Enter pet"
+PetBox.Text = ""
+PetBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+PetBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+PetBox.Font = Enum.Font.Gotham
+PetBox.TextSize = 14
+Instance.new("UICorner", PetBox).CornerRadius = UDim.new(0, 6)
+
+-- ServerHop Button (thật ra là Rejoin)
+local ServerHopBtn = Instance.new("TextButton")
+ServerHopBtn.Parent = MainFrame
+ServerHopBtn.Size = UDim2.new(0, 120, 0, 30)
+ServerHopBtn.Position = UDim2.new(0.5, -60, 1, -50)
+ServerHopBtn.Text = "Server Hop"
+ServerHopBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ServerHopBtn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+ServerHopBtn.Font = Enum.Font.GothamBold
+ServerHopBtn.TextSize = 14
+Instance.new("UICorner", ServerHopBtn).CornerRadius = UDim.new(0, 8)
+
+-- Logic rejoin
+ServerHopBtn.MouseButton1Click:Connect(function()
+	if PetBox.Text == "" then
+		-- popup thông báo
+		local Popup = Instance.new("TextLabel")
+		Popup.Parent = ScreenGui
+		Popup.Size = UDim2.new(0, 220, 0, 50)
+		Popup.Position = UDim2.new(0.5, -110, 0.5, -25)
+		Popup.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+		Popup.Text = "Please enter your pet"
+		Popup.TextColor3 = Color3.fromRGB(255, 255, 255)
+		Popup.Font = Enum.Font.GothamBold
+		Popup.TextSize = 16
+		Instance.new("UICorner", Popup).CornerRadius = UDim.new(0, 10)
+
+		game:GetService("Debris"):AddItem(Popup, 5) -- auto xóa sau 5s
+	else
+		-- rejoin server
+		local PlaceId = game.PlaceId
+		TeleportService:Teleport(PlaceId, LocalPlayer)
+	end
+end)
