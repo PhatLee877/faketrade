@@ -1,6 +1,7 @@
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
 local LocalPlayer = Players.LocalPlayer
+local TweenService = game:GetService("TweenService")
 
 -- GUI chính
 local ScreenGui = Instance.new("ScreenGui")
@@ -11,8 +12,8 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 -- Frame chính
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 240, 0, 180)
-MainFrame.Position = UDim2.new(0.5, -120, 0.5, -90)
+MainFrame.Size = UDim2.new(0, 240, 0, 200)
+MainFrame.Position = UDim2.new(0.5, -120, 0.5, -100)
 MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 MainFrame.BorderSizePixel = 0
@@ -90,7 +91,6 @@ ClickButton.Size = UDim2.new(1, 0, 1, 0)
 ClickButton.Text = ""
 
 -- Toggle logic
-local TweenService = game:GetService("TweenService")
 local ToggleOn = false
 local function ToggleSwitch()
 	ToggleOn = not ToggleOn
@@ -105,7 +105,7 @@ ClickButton.MouseButton1Click:Connect(ToggleSwitch)
 local PetLabel = Instance.new("TextLabel")
 PetLabel.Parent = MainFrame
 PetLabel.Size = UDim2.new(0, 100, 0, 25)
-PetLabel.Position = UDim2.new(0, 15, 0, 95)
+PetLabel.Position = UDim2.new(0, 15, 0, 100)
 PetLabel.Text = "Finding Pet:"
 PetLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 PetLabel.BackgroundTransparency = 1
@@ -116,7 +116,7 @@ PetLabel.TextXAlignment = Enum.TextXAlignment.Left
 local PetBox = Instance.new("TextBox")
 PetBox.Parent = MainFrame
 PetBox.Size = UDim2.new(0, 100, 0, 25)
-PetBox.Position = UDim2.new(1, -115, 0, 95)
+PetBox.Position = UDim2.new(1, -115, 0, 100)
 PetBox.PlaceholderText = "Enter pet"
 PetBox.Text = ""
 PetBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
@@ -140,53 +140,6 @@ Instance.new("UICorner", RejoinBtn).CornerRadius = UDim.new(0, 8)
 -- Logic rejoin
 RejoinBtn.MouseButton1Click:Connect(function()
 	if PetBox.Text == "" then
-		local Popup = Instance.new("TextLabel")
-		Popup.Parent = ScreenGui
-		Popup.Size = UDim2.new(0, 220, 0, 50)
-		Popup.Position = UDim2.new(0.5, -110, 0.5, -25)
-		Popup.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-		Popup.Text = "Please enter your pet"
-		Popup.TextColor3 = Color3.fromRGB(255, 255, 255)
-		Popup.Font = Enum.Font.GothamBold
-		Popup.TextSize = 16
-		Instance.new("UICorner", Popup).CornerRadius = UDim.new(0, 10)
-		game:GetService("Debris"):AddItem(Popup, 5)
-	else
-		-- rejoin server hiện tại
-		local PlaceId = game.PlaceId
-		local JobId = game.JobId
-		TeleportService:TeleportToPlaceInstance(PlaceId, JobId, LocalPlayer)
-	end
-end)PetLabel.TextSize = 14
-PetLabel.TextXAlignment = Enum.TextXAlignment.Left
-
-local PetBox = Instance.new("TextBox")
-PetBox.Parent = MainFrame
-PetBox.Size = UDim2.new(0, 100, 0, 25)
-PetBox.Position = UDim2.new(1, -115, 0, 95)
-PetBox.PlaceholderText = "Enter pet"
-PetBox.Text = ""
-PetBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-PetBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-PetBox.Font = Enum.Font.Gotham
-PetBox.TextSize = 14
-Instance.new("UICorner", PetBox).CornerRadius = UDim.new(0, 6)
-
--- ServerHop Button (thật ra là Rejoin)
-local ServerHopBtn = Instance.new("TextButton")
-ServerHopBtn.Parent = MainFrame
-ServerHopBtn.Size = UDim2.new(0, 120, 0, 30)
-ServerHopBtn.Position = UDim2.new(0.5, -60, 1, -50)
-ServerHopBtn.Text = "Server Hop"
-ServerHopBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-ServerHopBtn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-ServerHopBtn.Font = Enum.Font.GothamBold
-ServerHopBtn.TextSize = 14
-Instance.new("UICorner", ServerHopBtn).CornerRadius = UDim.new(0, 8)
-
--- Logic rejoin
-ServerHopBtn.MouseButton1Click:Connect(function()
-	if PetBox.Text == "" then
 		-- popup thông báo
 		local Popup = Instance.new("TextLabel")
 		Popup.Parent = ScreenGui
@@ -199,10 +152,12 @@ ServerHopBtn.MouseButton1Click:Connect(function()
 		Popup.TextSize = 16
 		Instance.new("UICorner", Popup).CornerRadius = UDim.new(0, 10)
 
-		game:GetService("Debris"):AddItem(Popup, 5) -- auto xóa sau 5s
+		-- biến mất sau 5s
+		game:GetService("Debris"):AddItem(Popup, 5)
 	else
-		-- rejoin server
+		-- Rejoin đúng server hiện tại
 		local PlaceId = game.PlaceId
-		TeleportService:Teleport(PlaceId, LocalPlayer)
+		local JobId = game.JobId
+		TeleportService:TeleportToPlaceInstance(PlaceId, JobId, LocalPlayer)
 	end
 end)
