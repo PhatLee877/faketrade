@@ -156,10 +156,8 @@ RejoinBtn.MouseButton1Click:Connect(function()
 		game:GetService("Debris"):AddItem(Popup, 5)
 	else
 		-- đổi chữ trên nút thành đếm ngược
-		for i = 25, 1, -1 do
-			RejoinBtn.Text = "Finding server (" .. i .. "s)"
-			wait(1)
-		end
+		RejoinBtn.MouseButton1Click:Connect(function()
+	RejoinBtn.Text = "Finding server..."
 
 		-- Rejoin đúng server hiện tại
 		local PlaceId = game.PlaceId
