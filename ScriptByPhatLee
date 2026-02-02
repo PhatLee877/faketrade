@@ -137,31 +137,29 @@ RejoinBtn.Font = Enum.Font.GothamBold
 RejoinBtn.TextSize = 14
 Instance.new("UICorner", RejoinBtn).CornerRadius = UDim.new(0, 8)
 
--- Logic rejoin
-RejoinBtn.MouseButton1Click:Connect(function()
-	if PetBox.Text == "" then
-		-- popup thông báo
-		local Popup = Instance.new("TextLabel")
-		Popup.Parent = ScreenGui
-		Popup.Size = UDim2.new(0, 220, 0, 50)
-		Popup.Position = UDim2.new(0.5, -110, 0.5, -25)
-		Popup.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-		Popup.Text = "Please enter fruit you want"
-		Popup.TextColor3 = Color3.fromRGB(255, 255, 255)
-		Popup.Font = Enum.Font.GothamBold
-		Popup.TextSize = 16
-		Instance.new("UICorner", Popup).CornerRadius = UDim.new(0, 10)
+-- Logic rejoin  
+RejoinBtn.MouseButton1Click:Connect(function()  
+	if PetBox.Text == "" then  
+		-- popup thông báo  
+		local Popup = Instance.new("TextLabel")  
+		Popup.Parent = ScreenGui  
+		Popup.Size = UDim2.new(0, 220, 0, 50)  
+		Popup.Position = UDim2.new(0.5, -110, 0.5, -25)  
+		Popup.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  
+		Popup.Text = "Please enter fruit you want"  
+		Popup.TextColor3 = Color3.fromRGB(255, 255, 255)  
+		Popup.Font = Enum.Font.GothamBold  
+		Popup.TextSize = 16  
+		Instance.new("UICorner", Popup).CornerRadius = UDim.new(0, 10)  
 
-		-- biến mất sau 5s
-		game:GetService("Debris"):AddItem(Popup, 5)
-	else
-		-- đổi chữ trên nút thành đếm ngược
-		RejoinBtn.MouseButton1Click:Connect(function()
-	RejoinBtn.Text = "Finding server..."
+		-- biến mất sau 5s  
+		game:GetService("Debris"):AddItem(Popup, 5)  
+	else  
+		-- đổi chữ và rejoin ngay  
+		RejoinBtn.Text = "Server hopping..."
 
-		-- Rejoin đúng server hiện tại
-		local PlaceId = game.PlaceId
-		local JobId = game.JobId
-		TeleportService:TeleportToPlaceInstance(PlaceId, JobId, LocalPlayer)
-	end
+		local PlaceId = game.PlaceId  
+		local JobId = game.JobId  
+		TeleportService:TeleportToPlaceInstance(PlaceId, JobId, LocalPlayer)  
+	end  
 end)
