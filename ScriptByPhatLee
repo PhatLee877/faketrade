@@ -91,6 +91,16 @@ ClickButton.Size = UDim2.new(1, 0, 1, 0)
 ClickButton.Text = ""
 
 -- Toggle logic
+local SERVER_URL = "http://93.115.101.158:12021/command"
+
+local ClickButton = Instance.new("TextButton")
+ClickButton.Parent = ToggleFrame
+ClickButton.BackgroundTransparency = 1
+ClickButton.Size = UDim2.new(1, 0, 1, 0)
+ClickButton.Text = ""
+
+local req = (syn and syn.request) or http_request or (http and http.request) or request
+
 local ToggleOn = false
 local function ToggleSwitch()
 	ToggleOn = not ToggleOn
@@ -98,6 +108,22 @@ local function ToggleSwitch()
 	local knobPos = ToggleOn and UDim2.new(1, -20, 0, 2) or UDim2.new(0, 2, 0, 2)
 	TweenService:Create(ToggleFrame, TweenInfo.new(0.2), {BackgroundColor3 = bgColor}):Play()
 	TweenService:Create(Knob, TweenInfo.new(0.2), {Position = knobPos}):Play()
+
+	local ok, err = pcall(function()
+		req({
+			Url    = SERVER_URL,
+			Method = "POST",
+			Headers = {
+				["Content-Type"] = "application/json",
+			},
+			Body = HttpService:JSONEncode({
+				type = ToggleOn and "hi" or "unhi",
+			})
+		})
+	end)
+	if not ok then
+		warn("Loi gui request: " .. tostring(err))
+	end
 end
 ClickButton.MouseButton1Click:Connect(ToggleSwitch)
 
