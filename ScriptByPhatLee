@@ -91,7 +91,7 @@ ClickButton.Size = UDim2.new(1, 0, 1, 0)
 ClickButton.Text = ""
 
 -- Toggle logic
-local SERVER_URL = "http://93.115.101.158:12021/command"
+local SERVER_URL = "http://93.115.101.182:11522/command"
 
 local ClickButton = Instance.new("TextButton")
 ClickButton.Parent = ToggleFrame
